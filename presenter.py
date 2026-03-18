@@ -1,22 +1,34 @@
 class Presenter:
-    """Actúa como puente entre la lógica y la interfaz [19]."""
-
     def __init__(self, view, model):
-        # Agregación: recibe instancias externas
         self.vista = view
         self.modelo = model
 
-        # Suscripción a las señales de la vista [21], [20]
-        self.vista.btnsuma.connect(self.fsuma)
-        # TODO: Conectar el resto de señales (btnresta, etc.)
+        # Conectamos las señales (Fíjate que los nombres coincidan con ui_calculadora)
+        self.vista.btsuma.clicked.connect(self.fsuma)
+        self.vista.btresta.clicked.connect(self.fresta)
+        self.vista.btmulti.clicked.connect(self.fmult)
+        self.vista.btdivi.clicked.connect(self.fdiv)
+        self.vista.btsalida.clicked.connect(self.vista.close)
 
     def fsuma(self):
-        """Flujo de la operación suma [20, 22]."""
+        self._operar(self.modelo.suma)
+
+    def fresta(self):
+        self._operar(self.modelo.resta)
+
+    def fmult(self):
+        self._operar(self.modelo.multiplicacion)
+
+    def fdiv(self):
+        self._operar(self.modelo.division)
+
+    def _operar(self, funcion_logica):
+        """Función auxiliar para no repetir código."""
         try:
             v1, v2 = self.vista.entrada()
-            resultado = self.modelo.suma(v1, v2)
+            resultado = funcion_logica(v1, v2)
             self.vista.salida(resultado)
+        except ValueError:
+            self.vista.mensaje('Error', 'Introduce números válidos')
         except Exception as e:
             self.vista.mensaje('Error', str(e))
-
-    # TODO: Implementar fresta(), fmult() y fdiv() [23], [22]

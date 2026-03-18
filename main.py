@@ -1,16 +1,30 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import sys
+from PySide6 import QtWidgets
+from PantallaCalculadora import Pantalla
+from presenter import Presenter
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+# Supongamos que tu lógica se llama LogicaCalculadora
+# from logica import LogicaCalculadora
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+class ModeloTemporal:
+    """Si aún no tienes el código de lógica, esto te sirve para probar."""
+
+    def suma(self, a, b): return a + b
+
+    def resta(self, a, b): return a - b
+
+    def multiplicacion(self, a, b): return a * b
+
+    def division(self, a, b): return a / b if b != 0 else "Error Div/0"
+
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+
+    vista = Pantalla()
+    modelo = ModeloTemporal()  # Aquí pondrás tu clase de lógica real
+    presentador = Presenter(vista, modelo)
+
+    vista.show()
+    sys.exit(app.exec())
